@@ -1,4 +1,4 @@
-slurmImage: ghcr.io/stackhpc/slurm-docker-cluster:1f51003
+slurmImage: ghcr.io/brandli/slurm-docker-cluster:24-05
 
 login:
   # Deployment resource name
@@ -30,7 +30,6 @@ storage:
   claimName: slurm-shared-storage
   # Capacite of the R-W-M volume
   capacity: &capacity 10Gi   # NB yaml anchor used so this value is also set for `rooknfs.storageCapacity` if necessary.
-
 
 # Values to be passed to the rook-nfs sub-chart
 # See rook-nfs sub-chart for full set of available config values
@@ -65,6 +64,7 @@ configmaps:
   slurmConf: slurm-conf-configmap
   slurmdbdConf: slurmdbd-conf-configmap
   sshdConfig: sshd-config-configmap
+  cgroupConf: cgroup-conf-configmap
 
 # Public key used for ssh access to the login node
 # If let undefined, assumes you have run the provided publish-keys.sh script to publish your public key prior to deployment

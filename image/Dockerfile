@@ -1,15 +1,22 @@
 FROM rockylinux:8
 
-LABEL org.opencontainers.image.source="https://github.com/stackhpc/slurm-docker-cluster" \
+LABEL org.opencontainers.image.source="https://github.com/brandli/slurm-docker-cluster" \
       org.opencontainers.image.title="slurm-docker-cluster" \
       org.opencontainers.image.description="Slurm Docker cluster on Rocky Linux 8" \
       org.label-schema.docker.cmd="docker-compose up -d" \
-      maintainer="StackHPC"
+      maintainer="brandli (forked from StackHPC)"
 
-ARG SLURM_TAG=slurm-23.02
+ARG SLURM_TAG=slurm-24.05
 ARG GOSU_VERSION=1.11
 
-COPY kubernetes.repo /etc/yum.repos.d/kubernetes.repo
+# Enable cgroups v2 support
+RUN set -ex \
+    && echo "GRUB_CMDLINE_LINUX=\"systemd.unified_cgroup_hierarchy=1\"" >> /etc/default/grub \
+    && mkdir -p /sys/fs/cgroup/unified \
+    && mkdir -p /etc/systemd/system/slurmd.service.d
+
+# Create a systemd drop-in file for slurmd to use cgroups v2
+RUN echo "[Service]\nDelegate=yes\nCPUAccounting=yes\nMemoryAccounting=yes" > /etc/systemd/system/slurmd.service.d/cgroup.conf
 
 RUN set -ex \
     && yum makecache \
@@ -48,9 +55,12 @@ RUN set -ex \
        openssh-server \
        apptainer \
        ondemand \
-       kubectl \
     && yum clean all \
     && rm -rf /var/cache/yum
+
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl && \
+    mv kubectl /usr/local/bin/
 
 RUN alternatives --set python /usr/bin/python3
 

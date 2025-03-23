@@ -65,6 +65,7 @@ configmaps:
   slurmConf: slurm-conf-configmap
   slurmdbdConf: slurmdbd-conf-configmap
   sshdConfig: sshd-config-configmap
+  cgroupConf: cgroup-conf-configmap
 
 # Public key used for ssh access to the login node
 # If let undefined, assumes you have run the provided publish-keys.sh script to publish your public key prior to deployment

@@ -8,7 +8,7 @@ login:
 slurmd:
   # StatefulSet resource name
   name: slurmd # NB this must match NodeName= in slurm-cluster-chart/files/slurm.conf
-  replicas: 2
+  replicas: 1
 
 slurmctld:
   # StatefulSet resource name

@@ -1,16 +1,10 @@
 FROM rockylinux:8
 
-LABEL org.opencontainers.image.source="https://github.com/stackhpc/slurm-docker-cluster" \
-      org.opencontainers.image.title="slurm-docker-cluster" \
-      org.opencontainers.image.description="Slurm Docker cluster on Rocky Linux 8" \
-      org.label-schema.docker.cmd="docker-compose up -d" \
-      maintainer="StackHPC"
+# Add environment variables if needed
+ENV SLURM_TAG=slurm-23-02-0-1
+ENV GOSU_VERSION=1.11
 
-ARG SLURM_TAG=slurm-23.02
-ARG GOSU_VERSION=1.11
-
-COPY kubernetes.repo /etc/yum.repos.d/kubernetes.repo
-
+# Skip the problematic kubernetes repo altogether
 RUN set -ex \
     && yum makecache \
     && yum -y update \
@@ -48,9 +42,15 @@ RUN set -ex \
        openssh-server \
        apptainer \
        ondemand \
-       kubectl \
+       curl \
     && yum clean all \
     && rm -rf /var/cache/yum
+
+# Install kubectl correctly - first get the latest stable version and then download it
+RUN KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt) && \
+    curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl && \
+    mv kubectl /usr/local/bin/kubectl
 
 RUN alternatives --set python /usr/bin/python3
 

@@ -1,4 +1,4 @@
-slurmImage: ghcr.io/stackhpc/slurm-docker-cluster:1f51003
+slurmImage: ghcr.io/brandli/slurm-docker-cluster:23-02
 
 login:
   # Deployment resource name
@@ -63,8 +63,10 @@ database:
 # Configmap resource names
 configmaps:
   slurmConf: slurm-conf-configmap
+  cgroupConf: cgroup-config-configmap
   slurmdbdConf: slurmdbd-conf-configmap
   sshdConfig: sshd-config-configmap
+
 
 # Public key used for ssh access to the login node
 # If let undefined, assumes you have run the provided publish-keys.sh script to publish your public key prior to deployment

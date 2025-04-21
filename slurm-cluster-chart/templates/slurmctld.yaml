@@ -31,8 +31,12 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.storage.mountPath }}
               name: slurm-jobdir
-            - mountPath: /etc/slurm/
+            - mountPath: /etc/slurm/slurm.conf
               name: slurm-config-volume
+              subPath: slurm.conf
+            - mountPath: /etc/slurm/cgroup.conf
+              name: cgroup-config-volume
+              subPath: cgroup.conf 
             - mountPath: /tmp/munge.key
               name: munge-key-secret
               subPath: munge.key
@@ -52,6 +56,9 @@ spec:
         - name: slurm-config-volume
           configMap:
             name: {{ .Values.configmaps.slurmConf }}
+        - name: cgroup-config-volume
+          configMap:
+            name: {{ .Values.configmaps.cgroupConf }}
         - name: munge-key-secret
           secret:
             secretName: {{ .Values.secrets.mungeKey }}

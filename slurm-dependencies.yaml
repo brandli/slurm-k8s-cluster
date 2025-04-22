@@ -1,3 +1,8 @@
+# make sure simultaneous multithreading is turned off in your bios ("hyperthreading") -> SLURM has a hard time with it
+# first: kubectl apply -f slurm-dependencies.yaml
+# second: bash publish-keys.sh slurm
+# last: helm upgrade slurm-cluster ./slurm-cluster-chart -f my-values.yaml --namespace slurm
+
 apiVersion: v1
 kind: Namespace
 metadata:

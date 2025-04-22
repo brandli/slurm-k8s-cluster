@@ -31,7 +31,6 @@ storage:
   # Capacite of the R-W-M volume
   capacity: &capacity 10Gi   # NB yaml anchor used so this value is also set for `rooknfs.storageCapacity` if necessary.
 
-
 # Values to be passed to the rook-nfs sub-chart
 # See rook-nfs sub-chart for full set of available config values
 rooknfs:
@@ -66,6 +65,7 @@ configmaps:
   cgroupConf: cgroup-config-configmap
   slurmdbdConf: slurmdbd-conf-configmap
   sshdConfig: sshd-config-configmap
+  cgroupConf: cgroup-conf-configmap
 
 
 # Public key used for ssh access to the login node

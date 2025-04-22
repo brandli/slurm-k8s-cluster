@@ -1,8 +1,12 @@
 FROM rockylinux:8
 
-# Add environment variables if needed
 ENV SLURM_TAG=slurm-23-02-0-1
 ENV GOSU_VERSION=1.11
+LABEL org.opencontainers.image.source="https://github.com/brandli/slurm-docker-cluster" \
+      org.opencontainers.image.title="slurm-docker-cluster" \
+      org.opencontainers.image.description="Slurm Docker cluster on Rocky Linux 8" \
+      org.label-schema.docker.cmd="docker-compose up -d" \
+      maintainer="brandli (forked from StackHPC)"
 
 # Skip the problematic kubernetes repo altogether
 RUN set -ex \

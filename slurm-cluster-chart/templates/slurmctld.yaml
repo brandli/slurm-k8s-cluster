@@ -36,7 +36,7 @@ spec:
               subPath: slurm.conf
             - mountPath: /etc/slurm/cgroup.conf
               name: cgroup-config-volume
-              subPath: cgroup.conf 
+              subPath: cgroup.conf
             - mountPath: /tmp/munge.key
               name: munge-key-secret
               subPath: munge.key

@@ -5,3 +5,4 @@ metadata:
 data:
   cgroup.conf: |
     {{- .Files.Get "files/cgroup.conf" | nindent 4 -}}
+    

@@ -1,4 +1,4 @@
-slurmImage: ghcr.io/brandli/slurm-docker-cluster:23-02
+slurmImage: ghcr.io/brandli/slurm-docker-cluster:u-22-04
 
 login:
   # Deployment resource name

@@ -88,6 +88,9 @@ RUN mkdir /etc/sysconfig/slurm \
         /var/log/slurm \
         /data \
         /etc/slurm \
+        /shared \
+        /shared/containers \
+        /shared/dvc-cache \
     && touch /var/lib/slurmd/node_state \
         /var/lib/slurmd/front_end_state \
         /var/lib/slurmd/job_state \
@@ -99,6 +102,7 @@ RUN mkdir /etc/sysconfig/slurm \
         /var/lib/slurmd/fed_mgr_state \
     && useradd -r --uid=990 slurm \
     && chown -R slurm:slurm /var/*/slurm* \
+    && chmod -R 1777 /shared \
     && useradd -u 1000 rocky \
     && usermod -p '*' rocky # unlocks account but sets no password
 
